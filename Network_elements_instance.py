@@ -32,20 +32,6 @@ class blocks:
         
         conv_1_norm = tfa.layers.InstanceNormalization()(conv_1)
         
-        # conv_1_norm= BatchNormalization(axis=-1,
-        #                            momentum=0.99,
-        #                            epsilon=0.001,
-        #                            center=True,
-        #                            scale=True,
-        #                            beta_initializer='zeros',
-        #                            gamma_initializer='ones',
-        #                            moving_mean_initializer='zeros',
-        #                            moving_variance_initializer='ones',
-        #                            beta_regularizer=None,
-        #                            gamma_regularizer=None,
-        #                            beta_constraint=None,
-        #                            gamma_constraint=None,
-        #                            synchronized=False,)(conv_1)
         conv_1_NL= LeakyReLU(0.3)(conv_1_norm)
 
         Kernel_size_2=[3,3,3]
@@ -60,21 +46,6 @@ class blocks:
 
         conv_2_norm = tfa.layers.InstanceNormalization()(conv_2)
         
-        # conv_2_norm=BatchNormalization(axis=-1,                                    
-        #                           momentum=0.99,                                    
-        #                           epsilon=0.001,                                    
-        #                           center=True,                                    
-        #                           scale=True,                                    
-        #                           beta_initializer='zeros',                                    
-        #                           gamma_initializer='ones',                                    
-        #                           moving_mean_initializer='zeros',                                    
-        #                           moving_variance_initializer='ones',                                    
-        #                           beta_regularizer=None,                                   
-        #                           gamma_regularizer=None,                                    
-        #                           beta_constraint=None,                                    
-        #                           gamma_constraint=None,                                    
-        #                           synchronized=False,)(conv_2)
-        
         conv_2_NL=LeakyReLU(0.3)(conv_2_norm)
                         
         
@@ -87,20 +58,6 @@ class blocks:
         
         conv_3_norm = tfa.layers.InstanceNormalization()(conv_3)
         
-        # conv_3_norm=BatchNormalization(axis=-1,                                    
-        #                           momentum=0.99,                                    
-        #                           epsilon=0.001,                                    
-        #                           center=True,                                    
-        #                           scale=True,                                    
-        #                           beta_initializer='zeros',                                    
-        #                           gamma_initializer='ones',                                    
-        #                           moving_mean_initializer='zeros',                                    
-        #                           moving_variance_initializer='ones',                                    
-        #                           beta_regularizer=None,                                   
-        #                           gamma_regularizer=None,                                    
-        #                           beta_constraint=None,                                    
-        #                           gamma_constraint=None,                                    
-        #                           synchronized=False,)(conv_3)
         conv_3_NL=LeakyReLU(0.3)(conv_3_norm)
         
         conv_3_1=Conv3D(filters=12,
@@ -112,21 +69,6 @@ class blocks:
         
         conv_3_1_norm = tfa.layers.InstanceNormalization()(conv_3_1)
         
-        # conv_3_1_norm=BatchNormalization(axis=-1,                                    
-        #                             momentum=0.99,                                    
-        #                             epsilon=0.001,                                    
-        #                             center=True,                                    
-        #                             scale=True,                                    
-        #                             beta_initializer='zeros',                                    
-        #                             gamma_initializer='ones',                                    
-        #                             moving_mean_initializer='zeros',                                    
-        #                             moving_variance_initializer='ones',                                    
-        #                             beta_regularizer=None,                                    
-        #                             gamma_regularizer=None,                                    
-        #                             beta_constraint=None,                                    
-        #                             gamma_constraint=None,                                    
-        #                             synchronized=False,)(conv_3_1)
-        
         conv_3_1_NL=LeakyReLU(0.3)(conv_3_1_norm)
         
         conv_4=Conv3D(filters=12,
@@ -137,21 +79,6 @@ class blocks:
                       use_bias=True)(x_input)
         
         conv_4_norm = tfa.layers.InstanceNormalization()(conv_4)
-        
-        # conv_4_norm=BatchNormalization(axis=-1,                                    
-        #                           momentum=0.99,                                    
-        #                           epsilon=0.001,                                    
-        #                           center=True,                                    
-        #                           scale=True,                                    
-        #                           beta_initializer='zeros',                                    
-        #                           gamma_initializer='ones',                                    
-        #                           moving_mean_initializer='zeros',                                    
-        #                           moving_variance_initializer='ones',                                    
-        #                           beta_regularizer=None,                                    
-        #                           gamma_regularizer=None,                                    
-        #                           beta_constraint=None,                                    
-        #                           gamma_constraint=None,                                    
-        #                           synchronized=False,)(conv_4)
         
         conv_4_NL=LeakyReLU(0.3)(conv_4_norm)
 
@@ -165,21 +92,6 @@ class blocks:
         
         conv_4_1_norm = tfa.layers.InstanceNormalization()(conv_4_1)
         
-        # conv_4_1_norm=BatchNormalization(axis=-1,                                    
-        #                             momentum=0.99,                                    
-        #                             epsilon=0.001,                                    
-        #                             center=True,                                    
-        #                             scale=True,                                    
-        #                             beta_initializer='zeros',                                    
-        #                             gamma_initializer='ones',                                    
-        #                             moving_mean_initializer='zeros',                                    
-        #                             moving_variance_initializer='ones',                                    
-        #                             beta_regularizer=None,                                    
-        #                             gamma_regularizer=None,                                    
-        #                             beta_constraint=None,                                    
-        #                             gamma_constraint=None,                                    
-        #                             synchronized=False,)(conv_4_1)
-        
         conv_4_1_NL=LeakyReLU(0.3)(conv_4_1_norm)
                         
         
@@ -191,21 +103,6 @@ class blocks:
                         use_bias=True)(conv_4_1_NL)
         
         conv_4_2_norm = tfa.layers.InstanceNormalization()(conv_4_2)
-        
-        # conv_4_2_norm=BatchNormalization(axis=-1,                                    
-        #                             momentum=0.99,                                    
-        #                             epsilon=0.001,                                    
-        #                             center=True,                                    
-        #                             scale=True,                                    
-        #                             beta_initializer='zeros',                                    
-        #                             gamma_initializer='ones',                                    
-        #                             moving_mean_initializer='zeros',                                    
-        #                             moving_variance_initializer='ones',                                    
-        #                             beta_regularizer=None,                                    
-        #                             gamma_regularizer=None,                                    
-        #                             beta_constraint=None,                                    
-        #                             gamma_constraint=None,                    
-        #                             synchronized=False,)(conv_4_2)
         
         conv_4_2_NL=LeakyReLU(0.3)(conv_4_2_norm)
         
@@ -240,21 +137,6 @@ class blocks:
         
         conv_norm = tfa.layers.InstanceNormalization()(conv)
         
-        # conv_norm=BatchNormalization(axis=-1,                                    
-        #                         momentum=0.99,                                    
-        #                         epsilon=0.001,                                    
-        #                         center=True,                                    
-        #                         scale=True,                                    
-        #                         beta_initializer='zeros',                                    
-        #                         gamma_initializer='ones',                                    
-        #                         moving_mean_initializer='zeros',                                    
-        #                         moving_variance_initializer='ones',                                    
-        #                         beta_regularizer=None,                                    
-        #                         gamma_regularizer=None,                                    
-        #                         beta_constraint=None,                                    
-        #                         gamma_constraint=None,                                    
-        #                         synchronized=False,)(conv)
-        
         conv_NL=LeakyReLU(0.3)(conv_norm)
         
         concat=Concatenate(axis=-1)([max_pool,avg_pool,conv_NL])
@@ -270,20 +152,6 @@ class blocks:
         
         conv_1_norm = tfa.layers.InstanceNormalization()(conv_1)
 
-        # conv_1_norm=BatchNormalization(axis=-1,                                    
-        #                         momentum=0.99,                                    
-        #                         epsilon=0.001,                                    
-        #                         center=True,                                    
-        #                         scale=True,                                    
-        #                         beta_initializer='zeros',                                    
-        #                         gamma_initializer='ones',                                    
-        #                         moving_mean_initializer='zeros',                                    
-        #                         moving_variance_initializer='ones',                                    
-        #                         beta_regularizer=None,                                    
-        #                         gamma_regularizer=None,                                    
-        #                         beta_constraint=None,                                    
-        #                         gamma_constraint=None,                                    
-        #                         synchronized=False)(conv_1)
         
         conv_1_NL=LeakyReLU(0.3)(conv_1_norm)
         
@@ -305,21 +173,6 @@ class blocks:
         
         conv_norm = tfa.layers.InstanceNormalization()(conv)
         
-        # conv_norm=BatchNormalization(axis=-1,                                    
-        #                         momentum=0.99,                                    
-        #                         epsilon=0.001,                                    
-        #                         center=True,                                    
-        #                         scale=True,                                    
-        #                         beta_initializer='zeros',                                    
-        #                         gamma_initializer='ones',                                    
-        #                         moving_mean_initializer='zeros',                                    
-        #                         moving_variance_initializer='ones',                                    
-        #                         beta_regularizer=None,                                    
-        #                         gamma_regularizer=None,                                    
-        #                         beta_constraint=None,                                    
-        #                         gamma_constraint=None,                                    
-        #                         synchronized=False)(conv)
-        
         conv_NL=LeakyReLU(0.3)(conv_norm)
 
         up_sample=UpSampling3D(size=(2,2,2))(conv_NL)
@@ -333,8 +186,6 @@ class blocks:
         
         concat=Concatenate(axis=-1)([up_sample, conv_transpose])
 
-        #shape=tf.shape(input)
-
         conv_1=Conv3D(filters=channel,
                     kernel_size=(1,1,1),
                     strides=(1,1,1),
@@ -344,29 +195,11 @@ class blocks:
         
         conv_1_norm = tfa.layers.InstanceNormalization()(conv_1)
         
-        # conv_1_norm=BatchNormalization(axis=-1,                                    
-        #                         momentum=0.99,                                    
-        #                         epsilon=0.001,                                    
-        #                         center=True,                                    
-        #                         scale=True,                                    
-        #                         beta_initializer='zeros',                                    
-        #                         gamma_initializer='ones',                                    
-        #                         moving_mean_initializer='zeros',                                    
-        #                         moving_variance_initializer='ones',                                    
-        #                         beta_regularizer=None,                                    
-        #                         gamma_regularizer=None,                                    
-        #                         beta_constraint=None,                                    
-        #                         gamma_constraint=None,                                    
-        #                         synchronized=False)(conv_1)
-        
         conv_1_NL=LeakyReLU(0.3)(conv_1_norm)
 
         print(conv_1_NL.shape)
 
         return conv_1_NL
     
-
-# %% [markdown]
-# 
 
 
