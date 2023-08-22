@@ -1,29 +1,17 @@
 import Network_elements_instance 
+import Network_elements_instance 
 import numpy as np
 import tensorflow as tf
-#import keras
 from tensorflow.keras.layers import Concatenate, Conv3D, InputLayer
 import Data_Transform
-#from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
+
+tf.config.experimental.set_lms_enabled(True)
 
 block=Network_elements_instance.blocks()
 
-#tf.keras.mixed_precision.set_global_policy('float32')        for tf>=2.4
-#tf.keras.mixed_precision.set_global_policy('mixed_float16') for tf>=2.4
-
-policy = tf.keras.mixed_precision.experimental.Policy('float32') # for tf<2.3
-tf.keras.mixed_precision.experimental.set_policy(policy)     #for tf<2.3
-
-gpus = tf.config.experimental.list_physical_devices('GPU')
-tf.config.experimental.set_virtual_device_configuration(gpus[0], [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=120000)])
-
-#tf.config.experimental.set_memory_growth(gpus[0], True)
-
-
-tf.config.experimental.set_lms_enabled(True)
-tf.config.experimental.set_lms_defrag_enabled(True)
-
+physical_devices = tf.config.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 def cartesian_product(*arrays):
     ndim = len(arrays)
@@ -57,21 +45,14 @@ def Unet_3d(x_in):
     Multi_scale_elaboration_5=block.MultiScaleElaboration(Concat_1)
     Multi_scale_elaboration_5_1=block.MultiScaleElaboration(Multi_scale_elaboration_5)
 
-    #channel=tf.shape(multi_scale_elaboration)
                                
     Expansion_2=block.expansion(Multi_scale_elaboration_5_1)
-    #Expansion=block.expansion(Multi_Elab_3, 146)
-    #Expansion=block.expansion(multi_scale_elaboration, 146)
 
     Concat=Concatenate(axis=-1)([Multi_Elab_2_1,Expansion_2])
 
     multi_scale_elaboration_6=block.MultiScaleElaboration(Concat)
     multi_scale_elaboration_6_1=block.MultiScaleElaboration(multi_scale_elaboration_6)
 
-    #channel=tf.shape(multi_scale_elaboration_6_1)
-    #filters=channel[-1]/2                           #Channel last format
-
-    #Expansion=block.expansion(multi_scale_elaboration,146)
     Expansion_3=block.expansion(multi_scale_elaboration_6_1)
 
     Concat=Concatenate(axis=-1)([Multi_Elab_1_1,Expansion_3])
@@ -88,8 +69,9 @@ def Unet_3d(x_in):
     
     return Conv
 
+window_width = 16
 
-input = tf.keras.Input(shape=(512,16,512,2))
+input = tf.keras.Input(shape=(512,window_width,512,2))
 
 Unet_output=Unet_3d(input)
 
@@ -104,7 +86,7 @@ transform = Data_Transform.transformation()
 class DataGenerator(tf.keras.utils.Sequence):
     'Generate data for keras'
 
-    def __init__(self, path, batch_size, triple_list, dim = (512,4,512), n_channel = 2,
+    def __init__(self, path, batch_size, triple_list, dim , n_channel = 2,
                  shuffle = True):
         
         self.dim= dim
@@ -201,21 +183,20 @@ class DataGenerator(tf.keras.utils.Sequence):
 train_path = '/NFSHOME/mspezialetti/sharedFolder/U-net_dataset/training'
 validation_path = '/NFSHOME/mspezialetti/sharedFolder/U-net_dataset/validation'
 
-train_batch_size = 3
+train_batch_size = 2
 
 training_examples = 785
 index_list_train = [f'{num:03}' for num in range (1, training_examples+1)]
 index_list_train = np.array(index_list_train)
 
-width = 16
-slices_list = np.arange(0, 64 - width + 1)
+slices_list = np.arange(0, 64 - window_width + 1)
 
 transformation_list = np.arange(0, 8)
 
 resulting_list = cartesian_product(index_list_train, slices_list, transformation_list)
 
 prams_train = {'triple_list': resulting_list,
-                'dim': (512, width, 512),
+                'dim': (512, window_width, 512),
                 'n_channel':2,
                 'shuffle':True}
 
@@ -228,14 +209,14 @@ index_list_validation = np.array(index_list_validation)
 resulting_list = cartesian_product(index_list_validation, slices_list, transformation_list)
 
 prams_validation = {'triple_list': resulting_list,
-                'dim': (512, width,512),
+                'dim': (512, window_width,512),
                 'n_channel':2,
                 'shuffle':True}
 
-validation_generator = DataGenerator(validation_path, batch_size = 7,**prams_validation)
+validation_generator = DataGenerator(validation_path, batch_size = 2,**prams_validation)
 model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5),
               loss=tf.keras.losses.MeanSquaredError(),
-              metrics=[tf.keras.metrics.RootMeanSquaredError(name="root_mean_squared_error", dtype=None)])     #tf.keras.metrics.Accuracy - does not work
+              metrics=[tf.keras.metrics.RootMeanSquaredError(name="root_mean_squared_error", dtype=None)])    #tf.keras.metrics.Accuracy - does not work
 
 print(model.summary())
 
@@ -283,7 +264,7 @@ transformation_list = np.array([0])
 
 resulting_list = cartesian_product(index_list_test, slices_list, transformation_list)
 prams_test = {'triple_list': resulting_list,
-                'dim': (512, width, 512),
+                'dim': (512, window_width, 512),
                 'n_channel':2,
                 'shuffle':True}
 
@@ -296,7 +277,3 @@ score = model.evaluate(test_generator,
 print(score)
 
 model.save('/NFSHOME/mspezialetti/sharedFolder/3D_Unet/mymodel_Aug.keras')
-
-
-
-          
