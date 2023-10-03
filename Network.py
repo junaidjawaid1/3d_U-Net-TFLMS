@@ -5,6 +5,9 @@ import tensorflow as tf
 from tensorflow.keras.layers import Concatenate, Conv3D, InputLayer
 import Data_Transform
 import matplotlib.pyplot as plt
+import os
+
+os.environ["TF_GPU_HOST_MEM_LIMIT_IN_MB"] = "160000"
 
 tf.config.experimental.set_lms_enabled(True)
 
